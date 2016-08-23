@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        #div1{
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background-color: red;
+            position: absolute;
+            left: 100px;
+            top: 200px;
+        }
+    </style>
+    <script>
+        window.onload=function () {
+            var oDiv=document.getElementById('div1');
+            var timer=null;
+            var iSpeed=-20;
+            var iSpeedX=20;
+
+            oDiv.onclick=function () {
+                startMove();
+            }
+
+            function startMove() {
+                clearInterval(timer);
+                timer=setInterval(function () {
+                    iSpeed+=3;
+                    var T=oDiv.offsetTop+iSpeed;
+                    var L=oDiv.offsetLeft+iSpeedX;
+                    if(T>document.documentElement.clientHeight-oDiv.offsetHeight){
+                        T=document.documentElement.clientHeight-oDiv.offsetHeight;
+                        iSpeed*=-1;
+                        iSpeed*=0.75;
+                        iSpeedX*=0.85;
+                    }
+                    if(L>document.documentElement.clientWidth-oDiv.offsetWidth){
+                        L=document.documentElement.clientWidth-oDiv.offsetWidth;
+                        iSpeedX*=-1;
+                        iSpeedX*=0.75;
+                    }else if(L<=0){
+                        L=0;
+                        iSpeedX*=-1;
+                        iSpeedX*=0.75;
+                    }
+                    if(Math.abs(iSpeed)<=1&&Math.abs(document.documentElement.clientHeight-oDiv.offsetTop-oDiv.offsetHeight)<=1){
+                        clearInterval(timer);
+                        iSpeed=0;
+                        T=document.documentElement.clientHeight-oDiv.offsetHeight;
+                    }
+
+                    oDiv.style.top =T+'px';
+                    oDiv.style.left=L+'px';
+                },30);
+            }
+        }
+    </script>
+</head>
+<body>
+<div id="div1"></div>
+
+</body>
+</html>
